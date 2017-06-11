@@ -1,0 +1,35 @@
+group 'com.github.nrf110'
+version '0.1.0'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+ext.rundeckPluginVersion = '1.1'
+ext.pluginClassNames = 'com.github.nrf110.rundeck.plugins.CryptoStorageConverter'
+
+repositories {
+    mavenLocal()
+    mavenCentral()   
+}
+
+dependencies {
+    compile 'org.rundeck:rundeck-core:2.8.2'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-library:1.3'
+}
+
+test {
+    testLogging {
+        events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+    }
+}
+
+jar {
+    from "$buildDir/output"
+    manifest {
+        attributes 'Rundeck-Plugin-Classnames': pluginClassNames
+        attributes 'Rundeck-Plugin-File-Version': version
+        attributes 'Rundeck-Plugin-Version': rundeckPluginVersion
+        attributes 'Rundeck-Plugin-Archive': 'true'
+    }
+}
